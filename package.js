@@ -1,6 +1,6 @@
 Package.describe({
   name: 'dburles:eslint',
-  version: '1.7.2',
+  version: '1.0.0',
   summary: 'The pluggable linting utility for JavaScript and JSX.',
   documentation: 'README.md',
   git: 'https://github.com/dburles/meteor-eslint.git'

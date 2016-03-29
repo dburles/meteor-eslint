@@ -1,5 +1,6 @@
-var linter = Npm.require('eslint').linter;
-var stripJsonComments = Npm.require('strip-json-comments');
+var linter = Npm.require('eslint').linter,
+    CLIEngine = Npm.require('eslint').CLIEngine,
+    stripJsonComments = Npm.require('strip-json-comments');
 
 Plugin.registerLinter({
   extensions: ["js", "jsx"],
@@ -8,12 +9,6 @@ Plugin.registerLinter({
   var linter = new EsLintLinter();
   return linter;
 });
-
-function EsLintLinter (){
-  // packageName -> { config (json),
-  //                  files: { [pathInPackage,arch] -> { hash, errors }}}
-  this._cacheByPackage = {};
-};
 
 var DEFAULT_CONFIG = JSON.stringify({
   env: {
@@ -39,6 +34,15 @@ var DEFAULT_CONFIG = JSON.stringify({
     jsx: true
   }
 });
+
+function EsLintLinter (){
+  // packageName -> { config (json),
+  //                  files: { [pathInPackage,arch] -> { hash, errors }}}
+  this._cacheByPackage = {};
+  this._cli = new CLIEngine({
+    baseConfig: JSON.parse(DEFAULT_CONFIG)
+  });
+};
 
 EsLintLinter.prototype.processFilesForPackage = function(files, options) {
   var self = this;
@@ -67,7 +71,9 @@ EsLintLinter.prototype.processFilesForPackage = function(files, options) {
   }
 
   if (configs.length) {
-    var newConfigString = configs[0].getContentsAsString();
+    var newConfigLocation = configs[0].getPathInPackage();
+    var newConfig = self._cli.getConfigForFile(newConfigLocation);
+    var newConfigString = JSON.stringify(newConfig);
     if (cache.configString !== newConfigString) {
       // Reset cache.
       cache.files = {};

@@ -2,7 +2,7 @@ var linter = Npm.require('eslint').linter;
 var stripJsonComments = Npm.require('strip-json-comments');
 
 Plugin.registerLinter({
-  extensions: ["js"],
+  extensions: ["js", "jsx"],
   filenames: [".eslintrc"]
 }, function () {
   var linter = new EsLintLinter();
@@ -19,6 +19,24 @@ var DEFAULT_CONFIG = JSON.stringify({
   env: {
     meteor: true,
     browser: true
+  },
+  ecmaFeatures: {
+    arrowFunctions: true,
+    blockBindings: true,
+    classes: true,
+    defaultParams: true,
+    destructuring: true,
+    forOf: true,
+    generators: false,
+    modules: true,
+    objectLiteralComputedProperties: true,
+    objectLiteralDuplicateProperties: false,
+    objectLiteralShorthandMethods: true,
+    objectLiteralShorthandProperties: true,
+    spread: true,
+    superInFunctions: true,
+    templateStrings: true,
+    jsx: true
   }
 });
 

@@ -477,9 +477,6 @@
         "path-is-inside": {
           "version": "1.0.1"
         },
-        "strip-json-comments": {
-          "version": "1.0.4"
-        },
         "text-table": {
           "version": "0.2.0"
         },

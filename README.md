@@ -1,6 +1,6 @@
 # Meteor Eslint
 
-The pluggable linting utility for JavaScript and JSX. Package source adapted from the Meteor jshint package.
+The pluggable linting utility for JavaScript and JSX. This package source was adapted from the core Meteor jshint package.
 
 ## Installation
 

@@ -1,5 +1,6 @@
-var linter = Npm.require('eslint').linter;
-var stripJsonComments = Npm.require('strip-json-comments');
+var linter = Npm.require('eslint').linter,
+    CLIEngine = Npm.require('eslint').CLIEngine,
+    stripJsonComments = Npm.require('strip-json-comments');
 
 Plugin.registerLinter({
   extensions: ["js", "jsx"],
@@ -9,36 +10,25 @@ Plugin.registerLinter({
   return linter;
 });
 
-function EsLintLinter (){
-  // packageName -> { config (json),
-  //                  files: { [pathInPackage,arch] -> { hash, errors }}}
-  this._cacheByPackage = {};
-};
-
 var DEFAULT_CONFIG = JSON.stringify({
   env: {
     meteor: true,
     browser: true
   },
-  ecmaFeatures: {
-    arrowFunctions: true,
-    blockBindings: true,
-    classes: true,
-    defaultParams: true,
-    destructuring: true,
-    forOf: true,
-    generators: false,
-    modules: true,
-    objectLiteralComputedProperties: true,
-    objectLiteralDuplicateProperties: false,
-    objectLiteralShorthandMethods: true,
-    objectLiteralShorthandProperties: true,
-    spread: true,
-    superInFunctions: true,
-    templateStrings: true,
-    jsx: true
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module"
   }
 });
+
+function EsLintLinter (){
+  // packageName -> { config (json),
+  //                  files: { [pathInPackage,arch] -> { hash, errors }}}
+  this._cacheByPackage = {};
+  this._cli = new CLIEngine({
+    baseConfig: JSON.parse(DEFAULT_CONFIG)
+  });
+};
 
 EsLintLinter.prototype.processFilesForPackage = function(files, options) {
   var self = this;
@@ -67,7 +57,9 @@ EsLintLinter.prototype.processFilesForPackage = function(files, options) {
   }
 
   if (configs.length) {
-    var newConfigString = configs[0].getContentsAsString();
+    var newConfigLocation = configs[0].getPathInPackage();
+    var newConfig = self._cli.getConfigForFile(newConfigLocation);
+    var newConfigString = JSON.stringify(newConfig);
     if (cache.configString !== newConfigString) {
       // Reset cache.
       cache.files = {};

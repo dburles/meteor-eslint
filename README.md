@@ -12,6 +12,23 @@ $ meteor add dburles:eslint
 
 Add an `.eslintrc` file to your project root. Here's a slightly modifed version of the Meteor configuration https://gist.github.com/dburles/a2f7ea77189b268b660d
 
+### Default `.eslintrc`
+
+The following is what gets overwritten by the `.eslintrc`:
+
+```json
+{
+  "env": {
+    "meteor": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}
+```
+
 ### License
 
 MIT

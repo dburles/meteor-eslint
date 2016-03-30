@@ -12,7 +12,7 @@ Package.registerBuildPlugin({
     'plugin/eslint.js'
   ],
   npmDependencies: {
-    "eslint": "1.1.0",
+    "eslint": "2.5.3",
     "strip-json-comments": "1.0.4"
   }
 });

@@ -1,12 +1,11 @@
-var linter = Npm.require('eslint').linter;
+var eslint = Npm.require('eslint').linter;
 var stripJsonComments = Npm.require('strip-json-comments');
 
 Plugin.registerLinter({
   extensions: ["js", "jsx"],
   filenames: [".eslintrc"]
 }, function () {
-  var linter = new EsLintLinter();
-  return linter;
+  return new EsLintLinter();
 });
 
 function EsLintLinter (){
@@ -20,23 +19,12 @@ var DEFAULT_CONFIG = JSON.stringify({
     meteor: true,
     browser: true
   },
-  ecmaFeatures: {
-    arrowFunctions: true,
-    blockBindings: true,
-    classes: true,
-    defaultParams: true,
-    destructuring: true,
-    forOf: true,
-    generators: false,
-    modules: true,
-    objectLiteralComputedProperties: true,
-    objectLiteralDuplicateProperties: false,
-    objectLiteralShorthandMethods: true,
-    objectLiteralShorthandProperties: true,
-    spread: true,
-    superInFunctions: true,
-    templateStrings: true,
-    jsx: true
+  parserOptions: {
+    ecmaVersion: 6,
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true
+    }
   }
 });
 
@@ -114,7 +102,7 @@ EsLintLinter.prototype.processFilesForPackage = function(files, options) {
     }
 
     config.globals = predefinedGlobals;
-    var errors = linter.verify(file.getContentsAsString(), config);
+    var errors = eslint.verify(file.getContentsAsString(), config);
     if (errors.length) {
       reportErrors(file, errors);
     }

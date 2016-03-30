@@ -10,7 +10,22 @@ $ meteor add dburles:eslint
 
 ## Usage
 
-Add an `.eslintrc` file to your project root. Here's a slightly modifed version of the Meteor configuration https://gist.github.com/dburles/a2f7ea77189b268b660d
+1. Configure your project to use eslint. See the code style [section on eslint in the Meteor guide](http://guide.meteor.com/code-style.html#eslint).
+2. Add an `.eslintrc` file to your project root.
+
+## Example .eslintrc
+
+```json
+{
+  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}
+```
+
+[Example project](https://github.com/dburles/meteor-lint-config-example)
 
 ### License
 

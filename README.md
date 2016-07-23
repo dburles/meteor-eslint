@@ -2,6 +2,10 @@
 
 The pluggable linting utility for JavaScript and JSX. This package source was adapted from the core Meteor jshint package.
 
+# This package is no longer supported
+
+### For a recommended linter configuration see https://guide.meteor.com/code-style.html#eslint
+
 ## Installation
 
 ```sh
